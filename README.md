@@ -3,6 +3,10 @@
 =======
 # SMAIT Restaurant Management System
 
+### Simple System Flow
+
+<img width="1000" height="1000" alt="Image" src="https://github.com/user-attachments/assets/91d91efe-e2f1-4df6-a545-676280c654b8" />
+
 \_A pure Dart terminal-based System
 
 ## Team Members
@@ -102,7 +106,7 @@ restaurant_system/
 
 2. **Run the system**:
    ```cmd
-   dart run main.dart #make sure you are ath the right directory
+   dart run main.dart #make sure you are at the right directory
    ```
    Copyright © 2025. All rights reserved.
 >>>>>>> 5f535e6 (DeephangGroup's project pushed)
