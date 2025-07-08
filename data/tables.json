@@ -1,0 +1,12 @@
+[
+  {"tableNumber": 1, "isOccupied": false},
+  {"tableNumber": 2, "isOccupied": false},
+  {"tableNumber": 3, "isOccupied": false},
+  {"tableNumber": 4, "isOccupied": false},
+  {"tableNumber": 5, "isOccupied": false},
+  {"tableNumber": 6, "isOccupied": false},
+  {"tableNumber": 7, "isOccupied": false},
+  {"tableNumber": 8, "isOccupied": false},
+  {"tableNumber": 9, "isOccupied": false},
+  {"tableNumber": 10, "isOccupied": false}
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Burger",
+    "price": 120.0,
+    "category": "Fast Food",
+    "isAvailable": true
+  },
+  {
+    "name": "Pizza",
+    "price": 250.0,
+    "category": "Fast Food",
+    "isAvailable": true
+  },
+  {
+    "name": "Lemonade",
+    "price": 60.0,
+    "category": "Beverage",
+    "isAvailable": true
+  },
+  {
+    "name": "Coffee",
+    "price": 80.0,
+    "category": "Beverage",
+    "isAvailable": true
+  }
+]
