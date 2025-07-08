@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Restaurant-Management-System
 =======
+=======
+>>>>>>> b72ca7a (resturent management system)
 # SMAIT Restaurant Management System
 
 ### Simple System Flow
@@ -109,4 +112,10 @@ restaurant_system/
    dart run main.dart #make sure you are at the right directory
    ```
    Copyright © 2025. All rights reserved.
+<<<<<<< HEAD
 >>>>>>> 5f535e6 (DeephangGroup's project pushed)
+=======
+=======
+# Restaurant-Management-System
+>>>>>>> cfafda9 (Initial commit)
+>>>>>>> b72ca7a (resturent management system)
