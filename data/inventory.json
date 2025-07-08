@@ -1,0 +1,7 @@
+{
+"items":[
+    {"name":"Flour","quantity":50,"unit":"kg"},
+    {"name":"Cheese","quantity":20,"unit":"kg"},
+    {"name":"Potato","quantity":12,"unit":"kg"}
+]
+}

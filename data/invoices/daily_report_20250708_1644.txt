@@ -1,0 +1,30 @@
+=== DAILY REPORT ===
+Date: 2025-07-08 16:44:35.977920
+
+TABLES STATUS:
+ID      | Status      | Orders  
+--------+--------------+----------
+1       | Available   | 0       
+2       | Available   | 0       
+3       | Available   | 0       
+4       | Available   | 0       
+5       | Available   | 0       
+6       | Available   | 0       
+7       | Available   | 0       
+8       | Available   | 0       
+9       | Available   | 0       
+10      | Available   | 0       
+
+MENU ITEMS:
+Name                | Price     | Available 
+--------------------+------------+----------
+Margherita Pizza    | $12.99   | true      
+Pasta               | $4.99    | true      
+Burger              | $5.00    | true      
+
+INVENTORY:
+Name                | Quantity  | Unit 
+--------------------+------------+-----
+Flour               | 50        | kg   
+Cheese              | 20        | kg   
+Potato              | 12        | kg   

@@ -1,0 +1,8 @@
+=== INVOICE ===
+Table: 2
+Date: 2025-07-08 16:53:02.522387
+
+Orders:
+Burger x1 - $5.0
+
+Total: $5.0
