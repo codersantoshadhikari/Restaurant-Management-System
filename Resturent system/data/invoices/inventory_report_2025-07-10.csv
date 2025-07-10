@@ -1,0 +1,8 @@
+ID,Name,Quantity,Unit,Threshold,Status
+flour,Wheat Flour,8.5,kg,5.0,OK
+cheese,Mozzarella Cheese,6.2,kg,3.0,OK
+tomato,Tomato,4.0,kg,2.0,OK
+pasta,Pasta,5.5,kg,2.5,OK
+cream,Heavy Cream,3.0,liter,1.5,OK
+lettuce,Lettuce,2.0,kg,1.0,OK
+syrup,Cola Syrup,1.5,liter,0.5,OK

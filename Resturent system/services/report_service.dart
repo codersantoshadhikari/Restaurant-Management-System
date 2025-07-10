@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 import '../models/order.dart';
 import '../utils/file_handler.dart';
 
@@ -64,7 +64,7 @@ class ReportService {
     }
   }
 
-  Future<void> generateInventoryReport(InventoryService inventoryService) async {
+  Future<void> generateInventoryReport( inventoryService) async {
     try {
       final csvData = StringBuffer();
       csvData.writeln('ID,Name,Quantity,Unit,Threshold,Status');

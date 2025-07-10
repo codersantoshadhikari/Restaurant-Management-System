@@ -15,17 +15,17 @@ class Validator {
     return int.tryParse(quantity) != null && int.parse(quantity) > 0;
   }
 
-  static bool isValidTableNumber(String number, TableService tableService) {
+  static bool isValidTableNumber(String number,  tableService) {
     final tableNumber = int.tryParse(number);
     if (tableNumber == null) return false;
     return tableService.getTableByNumber(tableNumber) != null;
   }
 
-  static bool isValidMenuItemId(String id, MenuService menuService) {
+  static bool isValidMenuItemId(String id, menuService) {
     return menuService.getMenuItemById(id) != null;
   }
 
-  static bool isValidInventoryItemId(String id, InventoryService inventoryService) {
+  static bool isValidInventoryItemId(String id,  inventoryService) {
     return inventoryService.inventoryItems.any((item) => item.id == id);
   }
 }

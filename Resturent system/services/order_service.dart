@@ -8,7 +8,7 @@ class OrderService {
 
   List<Order> get orders => _orders;
 
-  Future<void> loadOrders(MenuService menuService) async {
+  Future<void> loadOrders( menuService) async {
     _orders = [];
     final invoiceFiles = await FileHandler.getInvoiceFiles();
     

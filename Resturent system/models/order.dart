@@ -1,5 +1,5 @@
 class OrderItem {
-  final MenuItem menuItem;
+  final  menuItem;
   int quantity;
 
   OrderItem({required this.menuItem, required this.quantity});
@@ -38,7 +38,7 @@ class Order {
     return amount;
   }
 
-  factory Order.fromJson(Map<String, dynamic> json, List<MenuItem> menuItems) {
+  factory Order.fromJson(Map<String, dynamic> json, List menuItems) {
     final items = (json['items'] as List).map((item) {
       final menuItem = menuItems.firstWhere((m) => m.id == item['menuItemId']);
       return OrderItem(menuItem: menuItem, quantity: item['quantity']);

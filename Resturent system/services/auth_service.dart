@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../models/user.dart';
 import '../utils/file_handler.dart';
 
@@ -21,8 +23,15 @@ class AuthService {
   User? authenticate(String email, String password) {
     return _users.firstWhere(
       (user) => user.email == email && user.password == password,
-      orElse: () => null,
-    );
+      orElse: () => User(
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        role: 'guest',
+      ),  
+
+    );  
   }
 
   Future<void> addUser(User user) async {

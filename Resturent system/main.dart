@@ -10,7 +10,7 @@ import 'services/billing_service.dart';
 import 'services/inventory_service.dart';
 import 'services/report_service.dart';
 import 'utils/file_handler.dart';
-import 'utils/validator.dart';
+
 
 void main() async {
   // Initialize data directory
@@ -43,7 +43,7 @@ void main() async {
     final adminUser = User(
       id: '1',
       name: 'Admin',
-      email: 'admin@restaurant.com',
+      email: 'vihaanshrestha78@gmail.com',
       password: 'admin123',
       role: 'admin',
     );
@@ -93,11 +93,19 @@ void main() async {
         break;
       case '3':
         await orderManagement(
-          billingService, tableService, menuService, currentUser);
+          billingService,
+          tableService,
+          menuService,
+          currentUser,
+        );
         break;
       case '4':
         await reportManagement(
-            reportService, orderService, inventoryService, currentUser);
+          reportService,
+          orderService,
+          inventoryService,
+          currentUser,
+        );
         break;
       case '5':
         await inventoryManagement(inventoryService, currentUser);
@@ -227,7 +235,8 @@ Future<void> updateMenuItem(MenuService menuService) async {
 
   stdout.write('Enter new price (${item.price}): ');
   final price =
-      double.tryParse(stdin.readLineSync() ?? item.price.toString()) ?? item.price;
+      double.tryParse(stdin.readLineSync() ?? item.price.toString()) ??
+      item.price;
 
   stdout.write('Enter new category (${item.category}): ');
   final category = stdin.readLineSync() ?? item.category;
@@ -276,7 +285,10 @@ Future<void> deleteMenuItem(MenuService menuService) async {
 }
 
 // Table Management
-Future<void> tableManagement(TableService tableService, User currentUser) async {
+Future<void> tableManagement(
+  TableService tableService,
+  User currentUser,
+) async {
   bool back = false;
   while (!back) {
     print('\n=== Table Management ===');
@@ -312,7 +324,8 @@ void viewTableStatus(TableService tableService) {
   print('\n=== Table Status ===');
   for (final table in tableService.tables) {
     print(
-        'Table ${table.number}: ${table.isOccupied ? 'Occupied (${table.customerCount} people)' : 'Available'}');
+      'Table ${table.number}: ${table.isOccupied ? 'Occupied (${table.customerCount} people)' : 'Available'}',
+    );
     if (table.bookingTime != null) {
       print('   Booked at: ${table.bookingTime}');
     }
@@ -363,8 +376,12 @@ Future<void> freeTable(TableService tableService) async {
 }
 
 // Order Management
-Future<void> orderManagement(BillingService billingService,
-    TableService tableService, MenuService menuService, User currentUser) async {
+Future<void> orderManagement(
+  BillingService billingService,
+  TableService tableService,
+  MenuService menuService,
+  User currentUser,
+) async {
   bool back = false;
   while (!back) {
     print('\n=== Order & Billing ===');
@@ -396,8 +413,11 @@ Future<void> orderManagement(BillingService billingService,
   }
 }
 
-Future<void> createOrder(BillingService billingService, TableService tableService,
-    MenuService menuService) async {
+Future<void> createOrder(
+  BillingService billingService,
+  TableService tableService,
+  MenuService menuService,
+) async {
   print('\n=== Create New Order ===');
 
   // Show occupied tables
@@ -470,8 +490,12 @@ Future<void> createOrder(BillingService billingService, TableService tableServic
 }
 
 // Report Management
-Future<void> reportManagement(ReportService reportService,
-    OrderService orderService, InventoryService inventoryService, User user) async {
+Future<void> reportManagement(
+  ReportService reportService,
+  OrderService orderService,
+  InventoryService inventoryService,
+  User user,
+) async {
   bool back = false;
   while (!back) {
     print('\n=== Reports ===');
@@ -522,7 +546,9 @@ void viewOrders(OrderService orderService) {
 
 // Inventory Management
 Future<void> inventoryManagement(
-    InventoryService inventoryService, User currentUser) async {
+  InventoryService inventoryService,
+  User currentUser,
+) async {
   bool back = false;
   while (!back) {
     print('\n=== Inventory Management ===');
@@ -590,7 +616,8 @@ void viewLowStockItems(InventoryService inventoryService) {
     print('ID: ${item.id}');
     print('Name: ${item.name}');
     print(
-        'Quantity: ${item.quantity} ${item.unit} (threshold: ${item.threshold})');
+      'Quantity: ${item.quantity} ${item.unit} (threshold: ${item.threshold})',
+    );
     print('-----------------------');
   }
 }
@@ -646,12 +673,12 @@ Future<void> updateInventoryItem(InventoryService inventoryService) async {
   stdout.write('Enter new quantity (${item.quantity}): ');
   final quantity =
       double.tryParse(stdin.readLineSync() ?? item.quantity.toString()) ??
-          item.quantity;
+      item.quantity;
 
   stdout.write('Enter new threshold (${item.threshold}): ');
   final threshold =
       double.tryParse(stdin.readLineSync() ?? item.threshold.toString()) ??
-          item.threshold;
+      item.threshold;
 
   final updatedItem = InventoryItem(
     id: item.id,
