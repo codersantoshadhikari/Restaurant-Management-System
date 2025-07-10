@@ -50,18 +50,30 @@ restaurant_system/
 │ │ ├── billing_service.dart
 │ │ ├── inventory_service.dart
 │ │ └── report_service.dart
+│ │ └── transfer_service.dart
+│ │ └── branch_service.dart
+│ │ └── attendance_service.dart
 │ │
 │ └── utils/ # Helpers
 │ ├── file_handler.dart
 │ └── validator.dart
 |
 ├── data/ # JSON database
+| ├── attendance/
+------├── attendance.csv
 │ ├── users.json
 │ ├── menu.json
 │ ├── tables.json
 │ ├── inventory.json
 │ └── invoices/ # Generated reports
 | ├── sales_report.csv
+| ├── branches/
+------├── frankfurt.json
+------├── lisbon.json
+------├── noida.json
+------├── oslo.json
+------├── pokhara.json
+| ├── transfers/ #Generate Transfer Report
 
 ## User Roles
 

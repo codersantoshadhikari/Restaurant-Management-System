@@ -7,43 +7,43 @@ import 'table_service.dart';
 import 'inventory_service.dart';
 
 class ReportService {
-  /// Generates both TXT and CSV daily reports
-  static Future<void> generateDailyReport() async {
+  /// Generates both TXT and CSV daily reports for a specific branch
+  static Future<void> generateDailyReport(String branch) async {
     final tables = await TableService.loadTables();
     final menu = await MenuService.getMenu();
-    final inventory = await InventoryService.getInventory();
+    final inventory = await InventoryService.getInventory(branch);
 
     // Generate text report
-    await _generateTextReport(tables, menu, inventory);
+    await _generateTextReport(branch, tables, menu, inventory);
 
     // Generate CSV sales report
-    await _generateSalesReportCSV(tables);
+    await _generateSalesReportCSV(branch, tables);
   }
 
-  /// Generates inventory-specific report
-  static Future<void> generateInventoryReport() async {
-    final inventory = await InventoryService.getInventory();
+  /// Generates inventory-specific report for a branch
+  static Future<void> generateInventoryReport(String branch) async {
+    final inventory = await InventoryService.getInventory(branch);
     final reportContent =
         '''
 === INVENTORY REPORT ===
+Branch: ${branch.toUpperCase()}
 Date: ${DateTime.now()}
 
 ITEMS:
-${inventory.map((i) => '${i.name.padRight(20)} ${i.quantity.toString().padLeft(5)}${i.unit}').join('\n')}
+${inventory.map((i) => '${i.item.padRight(20)} ${i.quantity.toString().padLeft(5)}${i.unit}').join('\n')}
 ''';
 
-    await _ensureReportsDirectory();
+    await _ensureReportsDirectory(branch);
     final reportFile = File(
-      'data/invoices/inventory_report_${_timestamp()}.txt',
+      'data/branches/$branch/reports/inventory_report_${_timestamp()}.txt',
     );
     await reportFile.writeAsString(reportContent);
   }
 
-  // ========================
-  // PRIVATE HELPERS
-  // ========================
+  /*Private Helpers */
 
   static Future<void> _generateTextReport(
+    String branch,
     List<Table> tables,
     List<MenuItem> menu,
     List<InventoryItem> inventory,
@@ -51,6 +51,7 @@ ${inventory.map((i) => '${i.name.padRight(20)} ${i.quantity.toString().padLeft(5
     final reportContent =
         '''
 === DAILY REPORT ===
+Branch: ${branch.toUpperCase()}
 Date: ${DateTime.now()}
 
 TABLES STATUS:
@@ -60,19 +61,24 @@ MENU ITEMS:
 ${menu.map((i) => '${i.name} - \$${i.price} (${i.isAvailable ? 'Available' : 'Unavailable'})').join('\n')}
 
 INVENTORY:
-${inventory.map((i) => '${i.name}: ${i.quantity}${i.unit}').join('\n')}
+${inventory.map((i) => '${i.item}: ${i.quantity}${i.unit}').join('\n')}
 ''';
 
-    await _ensureReportsDirectory();
-    final reportFile = File('data/invoices/daily_report_${_timestamp()}.txt');
+    await _ensureReportsDirectory(branch);
+    final reportFile = File(
+      'data/branches/$branch/reports/daily_report_${_timestamp()}.txt',
+    );
     await reportFile.writeAsString(reportContent);
   }
 
-  static Future<void> _generateSalesReportCSV(List<Table> tables) async {
+  static Future<void> _generateSalesReportCSV(
+    String branch,
+    List<Table> tables,
+  ) async {
     final csvLines = <String>[];
 
     // Header row
-    csvLines.add('TableID,ItemName,Quantity,UnitPrice,Total,Date');
+    csvLines.add('Branch,TableID,ItemName,Quantity,UnitPrice,Total,Date');
 
     // Data rows
     final now = DateTime.now();
@@ -80,6 +86,7 @@ ${inventory.map((i) => '${i.name}: ${i.quantity}${i.unit}').join('\n')}
       for (final order in table.orders) {
         csvLines.add(
           [
+            branch,
             table.id.toString(),
             _escapeCsv(order.itemName),
             order.quantity.toString(),
@@ -91,8 +98,10 @@ ${inventory.map((i) => '${i.name}: ${i.quantity}${i.unit}').join('\n')}
       }
     }
 
-    await _ensureReportsDirectory();
-    final csvFile = File('data/invoices/sales_report.csv');
+    await _ensureReportsDirectory(branch);
+    final csvFile = File(
+      'data/branches/$branch/reports/sales_report_${_timestamp()}.csv',
+    );
     await csvFile.writeAsString(csvLines.join('\n'));
   }
 
@@ -110,8 +119,8 @@ ${inventory.map((i) => '${i.name}: ${i.quantity}${i.unit}').join('\n')}
   static String _timestamp() =>
       DateTime.now().millisecondsSinceEpoch.toString();
 
-  static Future<void> _ensureReportsDirectory() async {
-    final dir = Directory('data/invoices');
-    if (!await dir.exists()) await dir.create();
+  static Future<void> _ensureReportsDirectory(String branch) async {
+    final dir = Directory('data/branches/$branch/reports');
+    if (!await dir.exists()) await dir.create(recursive: true);
   }
 }

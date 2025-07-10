@@ -1,7 +1,32 @@
 {
-    "items":[
-    {"id":1,"name":"Margherita Pizza","price":12.99,"category":"Main","isAvailable":true},
-    {"id":2,"name":"Pasta","price":4.99,"category":"Main Course","isAvailable":true},
-    {"id":3,"name":"Burger","price":5.0,"category":"Fast Food","isAvailable":true}
-    ]
+  "items": [
+    {
+      "id": 1,
+      "name": "Margherita Pizza",
+      "price": 12.99,
+      "category": "Main",
+      "isAvailable": true
+    },
+    {
+      "id": 2,
+      "name": "Pasta",
+      "price": 4.99,
+      "category": "Main Course",
+      "isAvailable": true
+    },
+    {
+      "id": 3,
+      "name": "Burger",
+      "price": 5.0,
+      "category": "Fast Food",
+      "isAvailable": true
+    },
+    {
+      "id": 4,
+      "name": "Mustang Aalu",
+      "price": 5.0,
+      "category": "Nepali Food",
+      "isAvailable": true
+    }
+  ]
 }

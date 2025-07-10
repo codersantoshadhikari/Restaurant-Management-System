@@ -1,0 +1,25 @@
+=== DAILY REPORT ===
+Date: 2025-07-09 14:33:32.903976
+
+TABLES STATUS:
+Table 1: Occupied
+Table 2: Available
+Table 3: Available
+Table 4: Available
+Table 5: Available
+Table 6: Available
+Table 7: Available
+Table 8: Available
+Table 9: Available
+Table 10: Available
+
+MENU ITEMS:
+Margherita Pizza - $12.99 (Available)
+Pasta - $4.99 (Available)
+Burger - $5.0 (Available)
+Mustang Aalu - $5.0 (Available)
+
+INVENTORY:
+Flour: 50kg
+Cheese: 20kg
+Potato: 12kg

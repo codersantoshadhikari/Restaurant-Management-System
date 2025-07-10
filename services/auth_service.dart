@@ -10,10 +10,14 @@ class AuthService {
       (u) => u['username'] == username && u['password'] == password,
       orElse: () => throw Exception('Invalid credentials'),
     );
-    return User(
-      username: userMap['username'] as String,
-      password: userMap['password'] as String,
-      role: userMap['role'] as String,
-    );
+    return User.fromJson(
+      userMap,
+    ); //SIMPLE JSON SERIALIZATION CONCEPT DEFINED IN models/user.dart
+  }
+
+  static Future<void> verifyAdmin(User user) async {
+    if (user.role != 'admin') {
+      throw Exception('Only admins can perform this action');
+    }
   }
 }

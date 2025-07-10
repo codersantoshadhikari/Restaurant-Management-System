@@ -1,3 +1,4 @@
+/*HANDLES MENU*/
 import '../models/menu_item.dart';
 import '../utils/file_handler.dart';
 

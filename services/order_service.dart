@@ -1,3 +1,4 @@
+/*HANDLES ORDERS TAKEN BY WAITER */
 import '../models/order.dart';
 import 'menu_service.dart';
 import 'table_service.dart';

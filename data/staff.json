@@ -1,0 +1,32 @@
+[
+  {
+    "id": "EMP001",
+    "name": "Santosh Adhikari",
+    "role": "Manager",
+    "branch": "lisbon"
+  },
+  {
+    "id": "EMP002",
+    "name": "Saurav Acharya",
+    "role": "Manager",
+    "branch": "frankfurt"
+  },
+   {
+    "id": "EMP003",
+    "name": "Suraj Jha",
+    "role": "Manager",
+    "branch": "noida"
+  },
+  {
+    "id": "EMP004",
+    "name": "Deephang Thegim",
+    "role": "Manager",
+    "branch": "pokhara"
+  },
+  {
+    "id": "EMP005",
+    "name": "Vihaan Shrestha",
+    "role": "Manager",
+    "branch": "oslo"
+  }
+]

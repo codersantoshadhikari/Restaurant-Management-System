@@ -1,3 +1,4 @@
+/* HANDLES BILLING OPERATION DONE BY CASHIER*/
 import 'dart:io';
 import 'table_service.dart';
 

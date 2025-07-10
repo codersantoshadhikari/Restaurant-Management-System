@@ -1,0 +1,22 @@
+{
+  "name": "Oslo",
+  "location": "Norway",
+  "inventory": [
+    {
+      "item": "Salmon",
+      "quantity": 80,
+      "unit": "kg"
+    },
+    {
+      "item": "Cream",
+      "quantity": 120,
+      "unit": "liters"
+    },
+    {
+      "item": "Berries",
+      "quantity": 60,
+      "unit": "kg"
+    }
+  ],
+  "transfers": []
+}
