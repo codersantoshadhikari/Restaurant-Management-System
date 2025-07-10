@@ -22,15 +22,14 @@ class BillingService {
 
   Future<Order> createOrder({
     required int tableNumber,
-    required List<Map<String, dynamic>>
-    items, // [{menuItemId: '123', quantity: 2}]
+    required List<Map<String, dynamic>> items,
     double? discount,
   }) async {
     // Verify table is occupied
-    final table = _tableService.tables.firstWhere(
-      (t) => t.number == tableNumber,
-      orElse: () => throw Exception('Table not found'),
-    );
+    final table = _tableService.getTableByNumber(tableNumber);
+    if (table == null) {
+      throw Exception('Table not found');
+    }
 
     if (!table.isOccupied) {
       throw Exception('Table is not occupied');
@@ -64,5 +63,15 @@ class BillingService {
     await _orderService.saveOrder(order);
 
     return order;
+  }
+
+  Future<void> markOrderAsPaid(String orderId) async {
+    final order = _orderService.orders.firstWhere(
+      (o) => o.id == orderId,
+      orElse: () => throw Exception('Order not found'),
+    );
+    
+    order.isPaid = true;
+    await _orderService.saveOrder(order);
   }
 }

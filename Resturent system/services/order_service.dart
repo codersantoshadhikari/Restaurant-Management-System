@@ -1,53 +1,37 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
 import '../models/order.dart';
+import '../utils/file_handler.dart';
 
 class OrderService {
   List<Order> _orders = [];
-  final String _invoicesDirectory = 'data/invoices';
 
   List<Order> get orders => _orders;
 
-  Future<void> loadOrders(menuService) async {
-    try {
-      final directory = Directory(_invoicesDirectory);
-      if (await directory.exists()) {
-        final files = await directory
-            .list()
-            .where((file) => file.path.endsWith('.json'))
-            .toList();
-
-        _orders = [];
-        for (final file in files) {
-          final jsonData = await File(file.path).readAsString();
-          final orderData = json.decode(jsonData);
-          _orders.add(Order.fromJson(orderData, menuService.menuItems));
-        }
+  Future<void> loadOrders(MenuService menuService) async {
+    _orders = [];
+    final invoiceFiles = await FileHandler.getInvoiceFiles();
+    
+    for (final filePath in invoiceFiles) {
+      try {
+        final jsonData = await File(filePath).readAsString();
+        final orderData = json.decode(jsonData);
+        _orders.add(Order.fromJson(orderData, menuService.menuItems));
+      } catch (e) {
+        print('Error loading order from $filePath: $e');
       }
-    } catch (e) {
-      print('Error loading orders: $e');
-      _orders = [];
     }
   }
 
   Future<void> saveOrder(Order order) async {
-    try {
-      final directory = Directory(_invoicesDirectory);
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-
-      final file = File('${directory.path}/invoice_${order.id}.json');
-      await file.writeAsString(json.encode(order.toJson()));
-
-      // Also save as text bill
-      final billFile = File('${directory.path}/invoice_${order.id}.txt');
-      await billFile.writeAsString(generateBillText(order));
-
-      _orders.add(order);
-    } catch (e) {
-      print('Error saving order: $e');
-    }
+    final file = File('${FileHandler.invoicesDir}/invoice_${order.id}.json');
+    await file.writeAsString(json.encode(order.toJson()));
+    
+    // Also save as text bill
+    final billFile = File('${FileHandler.invoicesDir}/invoice_${order.id}.txt');
+    await billFile.writeAsString(generateBillText(order));
+    
+    _orders.add(order);
   }
 
   String generateBillText(Order order) {
@@ -80,5 +64,17 @@ class OrderService {
     buffer.writeln('============================');
 
     return buffer.toString();
+  }
+
+  List<Order> getOrdersByDate(DateTime date) {
+    return _orders.where((order) => 
+      order.orderTime.year == date.year &&
+      order.orderTime.month == date.month &&
+      order.orderTime.day == date.day
+    ).toList();
+  }
+
+  List<Order> getOrdersByTable(int tableNumber) {
+    return _orders.where((order) => order.tableNumber == tableNumber).toList();
   }
 }

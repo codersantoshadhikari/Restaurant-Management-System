@@ -1,63 +1,45 @@
-import 'dart:convert';
-import 'dart:io';
 import '../models/table.dart';
+import '../utils/file_handler.dart';
 
 class TableService {
   List<RestaurantTable> _tables = [];
-  final String _dataFilePath = 'data/tables.json';
 
   List<RestaurantTable> get tables => _tables;
 
   Future<void> loadTables() async {
-    try {
-      final file = File(_dataFilePath);
-      if (await file.exists()) {
-        final jsonData = await file.readAsString();
-        final List<dynamic> data = json.decode(jsonData);
-        _tables = data.map((table) => RestaurantTable.fromJson(table)).toList();
-      } else {
-        // Initialize with 10 tables if file doesn't exist
-        _tables = List.generate(
-          10,
-          (index) => RestaurantTable(number: index + 1),
-        );
-        saveTables();
-      }
-    } catch (e) {
-      print('Error loading tables: $e');
+    final data = await FileHandler.loadJsonFile(FileHandler.tablesFile);
+    _tables = data.map((table) => RestaurantTable.fromJson(table)).toList();
+    
+    if (_tables.isEmpty) {
       _tables = List.generate(
         10,
         (index) => RestaurantTable(number: index + 1),
       );
+      await saveTables();
     }
   }
 
   Future<void> saveTables() async {
-    try {
-      final file = File(_dataFilePath);
-      final jsonData = json.encode(
-        _tables.map((table) => table.toJson()).toList(),
-      );
-      await file.writeAsString(jsonData);
-    } catch (e) {
-      print('Error saving tables: $e');
-    }
+    await FileHandler.saveJsonFile(
+      FileHandler.tablesFile,
+      _tables.map((table) => table.toJson()).toList(),
+    );
   }
 
-  void bookTable(int tableNumber, int customerCount) {
+  Future<void> bookTable(int tableNumber, int customerCount) async {
     final table = _tables.firstWhere((t) => t.number == tableNumber);
     table.isOccupied = true;
     table.customerCount = customerCount;
     table.bookingTime = DateTime.now();
-    saveTables();
+    await saveTables();
   }
 
-  void freeTable(int tableNumber) {
+  Future<void> freeTable(int tableNumber) async {
     final table = _tables.firstWhere((t) => t.number == tableNumber);
     table.isOccupied = false;
     table.customerCount = null;
     table.bookingTime = null;
-    saveTables();
+    await saveTables();
   }
 
   List<RestaurantTable> getAvailableTables() {
@@ -66,5 +48,13 @@ class TableService {
 
   List<RestaurantTable> getOccupiedTables() {
     return _tables.where((table) => table.isOccupied).toList();
+  }
+
+  RestaurantTable? getTableByNumber(int number) {
+    try {
+      return _tables.firstWhere((table) => table.number == number);
+    } catch (e) {
+      return null;
+    }
   }
 }

@@ -1,64 +1,54 @@
-import 'dart:convert';
-import 'dart:io';
 import '../models/menu_item.dart';
+import '../utils/file_handler.dart';
 
 class MenuService {
   List<MenuItem> _menuItems = [];
-  final String _dataFilePath = 'data/menu.json';
 
   List<MenuItem> get menuItems => _menuItems;
 
   Future<void> loadMenu() async {
-    try {
-      final file = File(_dataFilePath);
-      if (await file.exists()) {
-        final jsonData = await file.readAsString();
-        final List<dynamic> data = json.decode(jsonData);
-        _menuItems = data.map((item) => MenuItem.fromJson(item)).toList();
-      } else {
-        _menuItems = [];
-      }
-    } catch (e) {
-      print('Error loading menu: $e');
-      _menuItems = [];
-    }
+    final data = await FileHandler.loadJsonFile(FileHandler.menuFile);
+    _menuItems = data.map((item) => MenuItem.fromJson(item)).toList();
   }
 
   Future<void> saveMenu() async {
-    try {
-      final file = File(_dataFilePath);
-      final jsonData = json.encode(
-        _menuItems.map((item) => item.toJson()).toList(),
-      );
-      await file.writeAsString(jsonData);
-    } catch (e) {
-      print('Error saving menu: $e');
-    }
+    await FileHandler.saveJsonFile(
+      FileHandler.menuFile,
+      _menuItems.map((item) => item.toJson()).toList(),
+    );
   }
 
-  void addMenuItem(MenuItem item) {
+  Future<void> addMenuItem(MenuItem item) async {
     _menuItems.add(item);
-    saveMenu();
+    await saveMenu();
   }
 
-  void updateMenuItem(String id, MenuItem updatedItem) {
+  Future<void> updateMenuItem(String id, MenuItem updatedItem) async {
     final index = _menuItems.indexWhere((item) => item.id == id);
     if (index != -1) {
       _menuItems[index] = updatedItem;
-      saveMenu();
+      await saveMenu();
     }
   }
 
-  void deleteMenuItem(String id) {
+  Future<void> deleteMenuItem(String id) async {
     _menuItems.removeWhere((item) => item.id == id);
-    saveMenu();
+    await saveMenu();
   }
 
   MenuItem? getMenuItemById(String id) {
-    return _menuItems.firstWhere((item) => item.id == id);
+    try {
+      return _menuItems.firstWhere((item) => item.id == id);
+    } catch (e) {
+      return null;
+    }
   }
 
   List<MenuItem> getMenuItemsByCategory(String category) {
     return _menuItems.where((item) => item.category == category).toList();
+  }
+
+  List<String> getCategories() {
+    return _menuItems.map((item) => item.category).toSet().toList();
   }
 }

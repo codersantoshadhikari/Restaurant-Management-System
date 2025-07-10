@@ -1,60 +1,40 @@
-import 'dart:convert';
-import 'dart:io';
 import '../models/inventory_item.dart';
 import '../models/order.dart';
+import '../utils/file_handler.dart';
 
 class InventoryService {
   List<InventoryItem> _inventoryItems = [];
-  final String _dataFilePath = 'data/inventory.json';
 
   List<InventoryItem> get inventoryItems => _inventoryItems;
 
   Future<void> loadInventory() async {
-    try {
-      final file = File(_dataFilePath);
-      if (await file.exists()) {
-        final jsonData = await file.readAsString();
-        final List<dynamic> data = json.decode(jsonData);
-        _inventoryItems = data
-            .map((item) => InventoryItem.fromJson(item))
-            .toList();
-      } else {
-        _inventoryItems = [];
-      }
-    } catch (e) {
-      print('Error loading inventory: $e');
-      _inventoryItems = [];
-    }
+    final data = await FileHandler.loadJsonFile(FileHandler.inventoryFile);
+    _inventoryItems = data.map((item) => InventoryItem.fromJson(item)).toList();
   }
 
   Future<void> saveInventory() async {
-    try {
-      final file = File(_dataFilePath);
-      final jsonData = json.encode(
-        _inventoryItems.map((item) => item.toJson()).toList(),
-      );
-      await file.writeAsString(jsonData);
-    } catch (e) {
-      print('Error saving inventory: $e');
-    }
+    await FileHandler.saveJsonFile(
+      FileHandler.inventoryFile,
+      _inventoryItems.map((item) => item.toJson()).toList(),
+    );
   }
 
-  void addInventoryItem(InventoryItem item) {
+  Future<void> addInventoryItem(InventoryItem item) async {
     _inventoryItems.add(item);
-    saveInventory();
+    await saveInventory();
   }
 
-  void updateInventoryItem(String id, InventoryItem updatedItem) {
+  Future<void> updateInventoryItem(String id, InventoryItem updatedItem) async {
     final index = _inventoryItems.indexWhere((item) => item.id == id);
     if (index != -1) {
       _inventoryItems[index] = updatedItem;
-      saveInventory();
+      await saveInventory();
     }
   }
 
-  void deleteInventoryItem(String id) {
+  Future<void> deleteInventoryItem(String id) async {
     _inventoryItems.removeWhere((item) => item.id == id);
-    saveInventory();
+    await saveInventory();
   }
 
   List<InventoryItem> getLowStockItems() {
@@ -73,8 +53,7 @@ class InventoryService {
 
         final inventoryItem = _inventoryItems.firstWhere(
           (item) => item.id == ingredientId,
-          orElse: () =>
-              throw Exception('Inventory item $ingredientId not found'),
+          orElse: () => throw Exception('Inventory item $ingredientId not found'),
         );
 
         if (inventoryItem.quantity < quantityUsed) {
@@ -85,6 +64,16 @@ class InventoryService {
       }
     }
 
+    await saveInventory();
+  }
+
+  Future<void> restockInventoryItem(String id, double quantity) async {
+    final item = _inventoryItems.firstWhere(
+      (item) => item.id == id,
+      orElse: () => throw Exception('Item not found'),
+    );
+    
+    item.quantity += quantity;
     await saveInventory();
   }
 }
