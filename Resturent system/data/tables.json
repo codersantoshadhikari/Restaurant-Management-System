@@ -1,0 +1,32 @@
+[
+  {
+    "number": 1,
+    "isOccupied": false,
+    "customerCount": null,
+    "bookingTime": null
+  },
+  {
+    "number": 2,
+    "isOccupied": true,
+    "customerCount": 4,
+    "bookingTime": "2023-05-15T12:30:00.000Z"
+  },
+  {
+    "number": 3,
+    "isOccupied": false,
+    "customerCount": null,
+    "bookingTime": null
+  },
+  {
+    "number": 4,
+    "isOccupied": false,
+    "customerCount": null,
+    "bookingTime": null
+  },
+  {
+    "number": 5,
+    "isOccupied": true,
+    "customerCount": 2,
+    "bookingTime": "2023-05-15T13:15:00.000Z"
+  }
+]

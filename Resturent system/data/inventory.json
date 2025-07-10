@@ -1,0 +1,51 @@
+[
+  {
+    "id": "flour",
+    "name": "Wheat Flour",
+    "unit": "kg",
+    "quantity": 8.5,
+    "threshold": 5.0
+  },
+  {
+    "id": "cheese",
+    "name": "Mozzarella Cheese",
+    "unit": "kg",
+    "quantity": 6.2,
+    "threshold": 3.0
+  },
+  {
+    "id": "tomato",
+    "name": "Tomato",
+    "unit": "kg",
+    "quantity": 4.0,
+    "threshold": 2.0
+  },
+  {
+    "id": "pasta",
+    "name": "Pasta",
+    "unit": "kg",
+    "quantity": 5.5,
+    "threshold": 2.5
+  },
+  {
+    "id": "cream",
+    "name": "Heavy Cream",
+    "unit": "liter",
+    "quantity": 3.0,
+    "threshold": 1.5
+  },
+  {
+    "id": "lettuce",
+    "name": "Lettuce",
+    "unit": "kg",
+    "quantity": 2.0,
+    "threshold": 1.0
+  },
+  {
+    "id": "syrup",
+    "name": "Cola Syrup",
+    "unit": "liter",
+    "quantity": 1.5,
+    "threshold": 0.5
+  }
+]
