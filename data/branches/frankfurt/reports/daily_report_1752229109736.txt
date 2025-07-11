@@ -1,0 +1,31 @@
+=== DAILY REPORT ===
+Branch: FRANKFURT
+Date: 2025-07-11 16:03:29.733735
+
+TABLES STATUS:
+Table 1: Available
+Table 2: Available
+Table 3: Available
+Table 4: Available
+Table 5: Available
+Table 6: Available
+Table 7: Available
+Table 8: Available
+Table 9: Available
+Table 10: Occupied
+
+MENU ITEMS:
+Margherita Pizza - $12.99 (Available)
+Pasta - $4.99 (Available)
+Burger - $5.0 (Available)
+Mustang Aalu - $5.0 (Available)
+Gundruk - $4.0 (Available)
+Fruits Salad - $10.0 (Available)
+
+INVENTORY:
+Beer: 300liters
+Pretzels: 300pieces
+Sausages: 200kg
+Honey: 25kg
+Potato: 20kg
+Lemons: 100pieces

@@ -1,8 +1,8 @@
 === INVOICE ===
 Table: 10
-Date: 2025-07-08 16:07:26.539194
+Date: 2025-07-11 16:04:19.582087
 
 Orders:
+Fruits Salad x1 - $10.0
 
-
-Total: $0.0
+Total: $10.0
