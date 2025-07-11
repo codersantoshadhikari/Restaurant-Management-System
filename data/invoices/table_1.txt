@@ -1,8 +1,12 @@
 === INVOICE ===
 Table: 1
-Date: 2025-07-11 14:40:51.977681
+Date: 2025-07-11 18:17:39.284071
 
 Orders:
+Gundruk x1 - $4.0
+Fruits Salad x1 - $10.0
+Mustang Aalu x1 - $5.0
 Margherita Pizza x1 - $12.99
+Burger x1 - $5.0
 
-Total: $12.99
+Total: $36.99

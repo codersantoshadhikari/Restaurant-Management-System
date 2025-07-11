@@ -1,0 +1,15 @@
+=== TABLE 8 DAILY REPORT ===
+Date: 2025-07-11 18:14:48.274982
+Status: Available
+
+ORDERS:
+
+
+INVENTORY STATUS:
+Beer: 300liters
+Pretzels: 300pieces
+Sausages: 200kg
+Honey: 25kg
+Potato: 20kg
+Lemons: 100pieces
+

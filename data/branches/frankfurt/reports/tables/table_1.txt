@@ -1,0 +1,19 @@
+=== TABLE 1 DAILY REPORT ===
+Date: 2025-07-11 18:14:48.255068
+Status: Occupied
+
+ORDERS:
+Gundruk x1 = $4.0
+Fruits Salad x1 = $10.0
+Mustang Aalu x1 = $5.0
+Margherita Pizza x1 = $12.99
+Burger x1 = $5.0
+
+INVENTORY STATUS:
+Beer: 300liters
+Pretzels: 300pieces
+Sausages: 200kg
+Honey: 25kg
+Potato: 20kg
+Lemons: 100pieces
+

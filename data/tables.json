@@ -1,1 +1,14 @@
-{"tables":[{"id":1,"capacity":4,"isOccupied":false,"orders":[]},{"id":2,"capacity":2,"isOccupied":false,"orders":[]},{"id":3,"capacity":4,"isOccupied":false,"orders":[]},{"id":4,"capacity":5,"isOccupied":false,"orders":[]},{"id":5,"capacity":4,"isOccupied":false,"orders":[]},{"id":6,"capacity":4,"isOccupied":false,"orders":[]},{"id":7,"capacity":6,"isOccupied":false,"orders":[]},{"id":8,"capacity":9,"isOccupied":false,"orders":[]},{"id":9,"capacity":7,"isOccupied":false,"orders":[]},{"id":10,"capacity":5,"isOccupied":false,"orders":[]}]}
+{
+  "tables": [
+    { "id": 1, "capacity": 4, "isOccupied": false, "orders": [] },
+    { "id": 2, "capacity": 2, "isOccupied": false, "orders": [] },
+    { "id": 3, "capacity": 4, "isOccupied": false, "orders": [] },
+    { "id": 4, "capacity": 5, "isOccupied": false, "orders": [] },
+    { "id": 5, "capacity": 4, "isOccupied": false, "orders": [] },
+    { "id": 6, "capacity": 4, "isOccupied": false, "orders": [] },
+    { "id": 7, "capacity": 6, "isOccupied": false, "orders": [] },
+    { "id": 8, "capacity": 9, "isOccupied": false, "orders": [] },
+    { "id": 9, "capacity": 7, "isOccupied": false, "orders": [] },
+    { "id": 10, "capacity": 5, "isOccupied": false, "orders": [] }
+  ]
+}
