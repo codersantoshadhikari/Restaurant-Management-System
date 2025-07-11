@@ -12,7 +12,6 @@ class User {
       role: json['role'],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {'username': username, 'password': password, 'role': role};
   }

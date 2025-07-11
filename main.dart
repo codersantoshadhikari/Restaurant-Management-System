@@ -3,6 +3,7 @@ import 'models/inventory_item.dart';
 import 'models/menu_item.dart';
 import 'models/table.dart';
 import 'models/user.dart';
+import 'services/attendance_service.dart';
 import 'services/auth_service.dart';
 import 'services/billing_service.dart';
 import 'services/inventory_service.dart';
@@ -23,7 +24,6 @@ void main() async {
     final user = await _authenticateUser();
     _clearScreen();
     print('Welcome, ${user.username} (${user.role.toUpperCase()})!\n');
-
     // Role-based routing
     switch (user.role) {
       case 'admin':
@@ -66,6 +66,7 @@ Future<User> _authenticateUser() async {
 
 /*ADMIN MENU SYSTEM*/
 Future<void> _adminMainMenu() async {
+  _clearScreen();
   const options = [
     'Take Attendance',
     'Manage Menu',
@@ -124,12 +125,10 @@ Future<void> _takeattendance() async {
     switch (choice) {
       case 1:
         await _checkin();
-        _pressEnterToContinue();
         break;
       case 2:
         await _checkout();
         break;
-
       case 3:
         return;
     }
@@ -137,13 +136,42 @@ Future<void> _takeattendance() async {
 }
 
 /*SUBOPERATION FOR ATTENDANCE*/
-Future<void> _checkin() async {}
-Future<void> _checkout() async {}
+Future<void> _checkin() async {
+  _clearScreen();
+  _printHeader('CHECK IN');
+
+  try {
+    final staffId = _promptForString('Enter your staff ID:', required: true);
+    final name = _promptForString('Enter your name:', required: true);
+
+    await AttendanceService.checkIn(staffId, name);
+    print('\n✅ Checked in successfully!');
+  } catch (e) {
+    print('\n❌ Error: ${e.toString()}');
+  }
+
+  _pressEnterToContinue();
+}
+
+Future<void> _checkout() async {
+  _clearScreen();
+  _printHeader('CHECK OUT');
+
+  try {
+    final staffId = _promptForString('Enter your staff ID:', required: true);
+    await AttendanceService.checkOut(staffId);
+    print('\n✅ Checked out successfully at ${DateTime.now()}');
+  } catch (e) {
+    _showError('Check Out Failed', e.toString());
+  }
+
+  _pressEnterToContinue();
+}
 
 /*OPERATION OF MENUMANAGEMENT*/
 Future<void> _menuManagement() async {
+  _clearScreen();
   const options = ['View Menu', 'Add Menu Item', 'Toggle Availability', 'Back'];
-
   while (true) {
     _clearScreen();
     _printHeader('MENU MANAGEMENT');
@@ -152,7 +180,6 @@ Future<void> _menuManagement() async {
     switch (choice) {
       case 1:
         await _displayFullMenu();
-        _pressEnterToContinue();
         break;
       case 2:
         await _addMenuItem();
@@ -212,7 +239,12 @@ Future<void> _toggleMenuItemAvailability() async {
 
 /* OPERATION OF TABLE MANAGEMENT*/
 Future<void> _tableManagement() async {
-  const options = ['View All Tables', 'Add New Table', 'Back'];
+  const options = [
+    'View All Tables',
+    'Add New Table',
+    'View Active Tables'
+        'Back',
+  ];
 
   while (true) {
     _clearScreen();
@@ -222,12 +254,14 @@ Future<void> _tableManagement() async {
     switch (choice) {
       case 1:
         await _viewAllTables();
-        _pressEnterToContinue();
         break;
       case 2:
         await _addNewTable();
         break;
       case 3:
+        await _viewAllTables();
+        break;
+      case 4:
         return;
     }
   }
@@ -250,6 +284,7 @@ Future<void> _viewAllTables() async {
       '${table.orders.length} items',
     );
   }
+  _pressEnterToContinue();
 }
 
 Future<void> _addNewTable() async {
@@ -295,7 +330,23 @@ Future<void> _viewActiveOrders() async {
 
 /* OPERATION OF INVENTORY MANAGEMENT BY ADMIN*/
 Future<void> _inventoryManagement() async {
-  const branch = 'lisbon'; // Or make this dynamic based on user selection
+  _clearScreen();
+  final branches = await TransferService.getAvailableBranches();
+  if (branches.isEmpty) {
+    print('No branches found');
+    _pressEnterToContinue();
+    return;
+  }
+  print('Select Branch for Inventory Management:');
+  // branches.forEach((branch) {
+  //   print(branch);
+  // });
+  for (int i = 0; i < branches.length; i++) {
+    print('${i + 1}. ${branches[i]}');
+  }
+  final branchIndex =
+      _promptForInt('\nEnter choice:', min: 1, max: branches.length) - 1;
+  final selectedBranch = branches[branchIndex];
   const options = [
     'View Inventory',
     'Add Inventory Item',
@@ -306,22 +357,21 @@ Future<void> _inventoryManagement() async {
 
   while (true) {
     _clearScreen();
-    _printHeader('INVENTORY MANAGEMENT - ${branch.toUpperCase()}');
+    _printHeader('INVENTORY MANAGEMENT - ${selectedBranch.toUpperCase()}');
     final choice = _showMenu(options);
 
     switch (choice) {
       case 1:
-        await _viewInventory(branch);
-        _pressEnterToContinue();
+        await _viewInventory(selectedBranch);
         break;
       case 2:
-        await _addInventoryItem(branch);
+        await _addInventoryItem(selectedBranch);
         break;
       case 3:
-        await _updateInventoryItem(branch);
+        await _updateInventoryItem(selectedBranch);
         break;
       case 4:
-        await _removeInventoryItem(branch);
+        await _removeInventoryItem(selectedBranch);
         break;
       case 5:
         return;
@@ -432,24 +482,37 @@ Future<void> _removeInventoryItem(String branch) async {
 
 /* OPERATION OF REPORT MANAGEMENT BY ADMIN*/
 Future<void> _reportManagement() async {
+  _clearScreen();
+  final branches = await TransferService.getAvailableBranches();
+  if (branches.isEmpty) {
+    print('No branches found');
+    _pressEnterToContinue();
+    return;
+  }
+  print('Select Branch');
+  for (int i = 0; i < branches.length; i++) {
+    print('${i + 1}. ${branches[i]}');
+  }
+  final branchIndex =
+      _promptForInt('\nEnter choice:', min: 1, max: branches.length) - 1;
+  final selectedBranch = branches[branchIndex];
+
   const options = ['Daily Sales Report', 'Inventory Report', 'Back'];
-  // You might want to make this dynamic based on available branches
-  const branch = 'lisbon'; // Or get this from user input
 
   while (true) {
     _clearScreen();
-    _printHeader('REPORT GENERATION - ${branch.toUpperCase()}');
+    _printHeader('REPORT GENERATION - ${selectedBranch.toUpperCase()}');
     final choice = _showMenu(options);
 
     switch (choice) {
       case 1:
-        await ReportService.generateDailyReport(branch);
-        print('\nReport generated in data/branches/$branch/reports/');
+        await ReportService.generateDailyReport(selectedBranch);
+        print('\nReport generated in data/branches/$selectedBranch/reports/');
         _pressEnterToContinue();
         break;
       case 2:
-        await ReportService.generateInventoryReport(branch);
-        print('\nReport generated in data/branches/$branch/reports/');
+        await ReportService.generateInventoryReport(selectedBranch);
+        print('\nReport generated in data/branches/$selectedBranch/reports/');
         _pressEnterToContinue();
         break;
       case 3:
@@ -641,7 +704,7 @@ Future<void> _cashierMainMenu() async {
     'Take Attendance',
     'View Active Orders',
     'Generate Bill',
-    'Exit',
+    'Exit System',
   ];
 
   while (true) {
@@ -650,16 +713,16 @@ Future<void> _cashierMainMenu() async {
     final choice = _showMenu(options);
 
     switch (choice) {
-      case 2:
+      case 1:
         await _takeattendance();
         break;
-      case 3:
+      case 2:
         await _viewActiveOrders();
         break;
-      case 4:
+      case 3:
         await _generateBill();
         break;
-      case 5:
+      case 4:
         _confirmExit();
         break;
     }
@@ -676,7 +739,6 @@ Future<void> _generateBill() async {
     _pressEnterToContinue();
     return;
   }
-
   _clearScreen();
   _printHeader('GENERATE BILL');
   print('Occupied Tables:');
@@ -698,7 +760,7 @@ Future<void> _waiterMainMenu() async {
     'View Table Status',
     'Book Table',
     'Take Order',
-    'Exit',
+    'Exit System',
   ];
 
   while (true) {
@@ -812,6 +874,7 @@ Future<void> _takeOrder() async {
 
 /* UTILITY FUNCTIONS */
 void _initializeSystem() {
+  AttendanceService.initialize();
   // Create required directories
   Directory('data/invoices').createSync(recursive: true);
 
@@ -820,7 +883,11 @@ void _initializeSystem() {
     'data/users.json',
     'data/menu.json',
     'data/tables.json',
-    'data/inventory.json',
+    'data/branches/lisbon.json',
+    'data/branches/frankfurt.json',
+    'data/branches/pokhara.json',
+    'data/branches/noida.json',
+    'data/branches/oslo.json',
   ];
 
   for (final file in requiredFiles) {
@@ -836,8 +903,12 @@ void _initializeSystem() {
     'data/users.json',
     'data/menu.json',
     'data/tables.json',
-    'data/inventory.json',
-    'data/staff.json', // Add this line
+    'data/staff.json',
+    'data/branches/lisbon.json',
+    'data/branches/frankfurt.json',
+    'data/branches/pokhara.json',
+    'data/branches/noida.json',
+    'data/branches/oslo.json',
   ];
 
   for (final file in requiredFiless) {
@@ -853,12 +924,26 @@ void _clearScreen() {
 
 void _printWelcome() {
   print('''
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────                                                                
+  🍽️  WELCOME TO   
+                                                                                                                                      
 ███████╗███╗   ███╗ █████╗ ██╗████████╗    ██████╗ ███████╗███████╗████████╗ █████╗ ██╗   ██╗██████╗  █████╗ ███╗   ██╗████████╗
 ██╔════╝████╗ ████║██╔══██╗██║╚══██╔══╝    ██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗██╔══██╗████╗  ██║╚══██╔══╝
 ███████╗██╔████╔██║███████║██║   ██║       ██████╔╝█████╗  ███████╗   ██║   ███████║██║   ██║██████╔╝███████║██╔██╗ ██║   ██║   
 ╚════██║██║╚██╔╝██║██╔══██║██║   ██║       ██╔══██╗██╔══╝  ╚════██║   ██║   ██╔══██║██║   ██║██╔══██╗██╔══██║██║╚██╗██║   ██║   
 ███████║██║ ╚═╝ ██║██║  ██║██║   ██║       ██║  ██║███████╗███████║   ██║   ██║  ██║╚██████╔╝██║  ██║██║  ██║██║ ╚████║   ██║   
-╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝       ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝                                                                                                                          
+╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝       ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝  
+                                                                                                               ★ ★ ★ ★ ★ 
+  From the ❤️  of Lisbon to the peaks of Pokhara,                        
+  SMAIT serves mouthwatering cuisine across 5 vibrant cities.                                                                                                               
+  ✨Taste tradition, fusion, and freshness — all on one plate!         
+  Visit your nearest SMAIT branch and experience                                                                                 
+  global taste with local love.                                                                                                               
+                                                                                                                                              
+  📍 Now serving in: Lisbon | Frankfurt | Noida | Oslo | Pokhara                                                                            
+  🌐 Visit us: https://smaitrestaurant.com     
+
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────      
   ''');
 }
 
@@ -930,13 +1015,14 @@ void _confirmExit() {
   if (input == 'y') {
     _clearScreen();
     print('''
- Thank you for using SMAIT Restaurant Management System!
-   ██████╗  ██████╗  ██████╗ ██████╗     ██████╗ ██╗   ██╗███████╗███████╗👋
-  ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗    ██╔══██╗╚██╗ ██╔╝██╔════╝██╔════╝👋
+   ██████╗  ██████╗  █████╗ ██████╗      ██████╗ ██╗   ██╗███████╗███████╗
+  ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗    ██╔══██╗╚██╗ ██╔╝██╔════╝██╔════╝
   ██║  ███╗██║   ██║██║   ██║██║  ██║    ██████╔╝ ╚████╔╝ █████╗  █████╗  
   ██║   ██║██║   ██║██║   ██║██║  ██║    ██╔══██╗  ╚██╔╝  ██╔══╝  ██╔══╝  
-  ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    ██████╔╝   ██║   ███████╗███████╗👋
-   ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     ╚═════╝    ╚═╝   ╚══════╝╚══════╝👋
+  ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    ██████╔╝   ██║   ███████╗███████╗
+   ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     ╚═════╝    ╚═╝   ╚══════╝╚══════╝
+
+   Thank you for using SMAIT Restaurant Management System! 
     ''');
     exit(0);
   }

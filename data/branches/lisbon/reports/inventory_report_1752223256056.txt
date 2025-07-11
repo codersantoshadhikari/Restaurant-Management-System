@@ -1,0 +1,11 @@
+=== INVENTORY REPORT ===
+Branch: LISBON
+Date: 2025-07-11 14:25:56.049951
+
+ITEMS:
+Coffee Beans           150kg
+Milk                   300liters
+Sugar                  200kg
+Beer                   200liters
+Honey                   25kg
+Potato                  70kg

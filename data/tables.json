@@ -1,13 +1,6 @@
 {
   "tables": [
-    {
-      "id": 1,
-      "capacity": 4,
-      "isOccupied": true,
-      "orders": [
-        { "itemName": "Margherita Pizza", "price": 12.99, "quantity": 1 }
-      ]
-    },
+    { "id": 1, "capacity": 4, "isOccupied": false, "orders": [] },
     { "id": 2, "capacity": 2, "isOccupied": false, "orders": [] },
     { "id": 3, "capacity": 4, "isOccupied": false, "orders": [] },
     { "id": 4, "capacity": 5, "isOccupied": false, "orders": [] },

@@ -27,6 +27,13 @@
       "price": 5.0,
       "category": "Nepali Food",
       "isAvailable": true
+    },
+    {
+      "id": 5,
+      "name": "Gundruk",
+      "price": 4.0,
+      "category": "Nepali Cusine",
+      "isAvailable": true
     }
   ]
 }

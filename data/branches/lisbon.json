@@ -1,1 +1,58 @@
-{"name":"Lisbon","location":"Portugal","inventory":[{"item":"Coffee Beans","quantity":150,"unit":"kg"},{"item":"Milk","quantity":300,"unit":"liters"},{"item":"Sugar","quantity":200,"unit":"kg"},{"item":"Beer","quantity":200,"unit":"liters"},{"item":"Honey","quantity":25,"unit":"kg"},{"item":"Potato","quantity":70,"unit":"kg"}],"transfers":[{"id":"TRANS-20250710-6439","date":"2025-07-10T16:04:08.153412","item":"Beer","quantity":100,"from":"frankfurt","to":"lisbon","staffId":"EMP002","status":"completed","notes":"Take it"},{"id":"TRANS-20250710-8919","date":"2025-07-10T16:52:52.962798","item":"Honey","quantity":25,"from":"frankfurt","to":"lisbon","staffId":"EMP002","status":"completed","notes":"Honey Bunny"},{"id":"TRANS-20250710-1620","date":"2025-07-10T18:36:01.949446","item":"Beer","quantity":100,"from":"frankfurt","to":"lisbon","staffId":"EMP002","status":"completed","notes":"Pradip Khanxa harey"}]}
+{
+  "name": "Lisbon",
+  "location": "Portugal",
+  "inventory": [
+    { "item": "Coffee Beans", "quantity": 150, "unit": "kg" },
+    { "item": "Milk", "quantity": 300, "unit": "liters" },
+    { "item": "Sugar", "quantity": 200, "unit": "kg" },
+    { "item": "Beer", "quantity": 200, "unit": "liters" },
+    { "item": "Honey", "quantity": 25, "unit": "kg" },
+    { "item": "Potato", "quantity": 50, "unit": "kg" }
+  ],
+  "transfers": [
+    {
+      "id": "TRANS-20250710-6439",
+      "date": "2025-07-10T16:04:08.153412",
+      "item": "Beer",
+      "quantity": 100,
+      "from": "frankfurt",
+      "to": "lisbon",
+      "staffId": "EMP002",
+      "status": "completed",
+      "notes": "Take it"
+    },
+    {
+      "id": "TRANS-20250710-8919",
+      "date": "2025-07-10T16:52:52.962798",
+      "item": "Honey",
+      "quantity": 25,
+      "from": "frankfurt",
+      "to": "lisbon",
+      "staffId": "EMP002",
+      "status": "completed",
+      "notes": "Honey Bunny"
+    },
+    {
+      "id": "TRANS-20250710-1620",
+      "date": "2025-07-10T18:36:01.949446",
+      "item": "Beer",
+      "quantity": 100,
+      "from": "frankfurt",
+      "to": "lisbon",
+      "staffId": "EMP002",
+      "status": "completed",
+      "notes": "Pradip Khanxa harey"
+    },
+    {
+      "id": "TRANS-20250711-8152",
+      "date": "2025-07-11T14:35:12.174848",
+      "item": "Potato",
+      "quantity": 20,
+      "from": "lisbon",
+      "to": "frankfurt",
+      "staffId": "EMP001",
+      "status": "completed",
+      "notes": "Chips Chilly"
+    }
+  ]
+}

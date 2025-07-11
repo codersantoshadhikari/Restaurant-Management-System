@@ -11,7 +11,7 @@
     "role": "Manager",
     "branch": "frankfurt"
   },
-   {
+  {
     "id": "EMP003",
     "name": "Suraj Jha",
     "role": "Manager",
@@ -28,5 +28,17 @@
     "name": "Vihaan Shrestha",
     "role": "Manager",
     "branch": "oslo"
+  },
+  {
+    "id": "EMP005",
+    "name": "Sulochana Pokhrek",
+    "role": "Cashier",
+    "branch": "lisbon"
+  },
+  {
+    "id": "EMP006",
+    "name": "Nikhil Upreti",
+    "role": "Waiter",
+    "branch": "lisbon"
   }
 ]

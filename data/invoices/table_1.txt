@@ -1,9 +1,8 @@
 === INVOICE ===
 Table: 1
-Date: 2025-07-09 14:11:52.559234
+Date: 2025-07-11 14:40:51.977681
 
 Orders:
-Mustang Aalu x2 - $10.0
-Burger x1 - $5.0
+Margherita Pizza x1 - $12.99
 
-Total: $15.0
+Total: $12.99
