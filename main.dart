@@ -1010,9 +1010,19 @@ void _showError(String title, String message) {
   _pressEnterToContinue();
 }
 
-void _confirmExit() {
-  print('\nAre you sure you want to exit? (y/n)');
+void _confirmExit() async {
+  print('''
+╔══════════════════════════════════╗
+║       CONFIRM EXIT               ║
+╠══════════════════════════════════╣
+║ Are you sure you want to exit?   ║
+║                                  ║
+║   (y) Yes, exit the program      ║
+║   (n) No, return to menu         ║
+╚══════════════════════════════════╝
+''');
   final input = stdin.readLineSync()?.trim().toLowerCase();
+
   if (input == 'y') {
     _clearScreen();
     print('''
