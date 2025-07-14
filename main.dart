@@ -66,9 +66,15 @@ Future<User> _authenticateUser() async {
 
 /*ADMIN MENU SYSTEM*/
 Future<void> _adminMainMenu() async {
+  stdout.write('Do you want to take Attendance (y/n)?');
+  final input = stdin.readLineSync()?.trim().toLowerCase();
+  if (input == 'y') {
+    await _checkin();
+  } else if (input != 'n') {
+    print('I understand you already had your attendance.');
+  }
   _clearScreen();
   const options = [
-    'Take Attendance',
     'Manage Menu',
     'Manage Tables',
     'Manage Inventory',
@@ -85,52 +91,27 @@ Future<void> _adminMainMenu() async {
 
     switch (choice) {
       case 1:
-        await _takeattendance();
-        break;
-      case 2:
         await _menuManagement();
         break;
-      case 3:
+      case 2:
         await _tableManagement();
         break;
-      case 4:
+      case 3:
         await _inventoryManagement();
         break;
-      case 5:
+      case 4:
         await _reportManagement();
         break;
-      case 6:
+      case 5:
         await _viewBranchInventory();
         ;
         break;
-      case 7:
+      case 6:
         await _handleTransfer();
         break;
-      case 8:
-        _confirmExit();
-        break;
-    }
-  }
-}
-
-/*OPERATION FOR TAKING ATTENDANCE*/
-Future<void> _takeattendance() async {
-  const options = ['Check-In', 'Check-Out', 'Back'];
-
-  while (true) {
-    _clearScreen();
-    _printHeader('MENU MANAGEMENT');
-    final choice = _showMenu(options);
-
-    switch (choice) {
-      case 1:
-        await _checkin();
-        break;
-      case 2:
+      case 7:
         await _checkout();
         break;
-      case 3:
-        return;
     }
   }
 }
@@ -149,23 +130,28 @@ Future<void> _checkin() async {
   } catch (e) {
     print('\n❌ Error: ${e.toString()}');
   }
-
   _pressEnterToContinue();
 }
 
 Future<void> _checkout() async {
   _clearScreen();
   _printHeader('CHECK OUT');
-
-  try {
-    final staffId = _promptForString('Enter your staff ID:', required: true);
-    await AttendanceService.checkOut(staffId);
-    print('\n✅ Checked out successfully at ${DateTime.now()}');
-  } catch (e) {
-    _showError('Check Out Failed', e.toString());
+  stdout.write('Do you want to checkout(y/n)?');
+  final input1 = stdin.readLineSync()?.trim().toLowerCase();
+  if (input1 == 'y') {
+    try {
+      final staffId = _promptForString('Enter your staff ID:', required: true);
+      await AttendanceService.checkOut(staffId);
+      print('\n✅ Checked out successfully at ${DateTime.now()}');
+    } catch (e) {
+      _showError('Check Out Failed', e.toString());
+    }
+  } else if (input1 == 'n') {
+    print('I understand you already checked out your Attendance.');
+  } else {
+    print('Invalid input. Please enter "y" or "n".');
   }
-
-  _pressEnterToContinue();
+  _confirmExit();
 }
 
 /*OPERATION OF MENUMANAGEMENT*/
@@ -434,24 +420,46 @@ Future<void> _updateInventoryItem(String branch) async {
     required: true,
   );
 
-  // Show current quantity
   final currentItem = inventory.firstWhere(
     (i) => i.item.toLowerCase() == itemName.toLowerCase(),
   );
-  final adjustment = _promptForInt(
-    'Enter quantity change (+ to add, - to subtract):',
+
+  print(
+    '\nCurrent: ${currentItem.item} = ${currentItem.quantity} ${currentItem.unit}',
   );
+
+  int adjustment;
+  while (true) {
+    print('Enter change (+ to add, - to subtract):');
+    final input = stdin.readLineSync()?.trim();
+    final number = int.tryParse(input ?? '');
+
+    if (number == null) {
+      print('❌ Please enter a valid number.');
+    } else if (number == 0) {
+      print('❌ Cannot adjust by 0. Try again.');
+    } else {
+      adjustment = number;
+      break;
+    }
+  }
+
+  final newQuantity = currentItem.quantity + adjustment;
+
+  if (newQuantity < 0) {
+    print('\n❌ Error: Cannot reduce stock below 0!');
+    _pressEnterToContinue();
+    return;
+  }
 
   try {
     await InventoryService.updateQuantity(branch, itemName, adjustment);
-    final newQuantity = currentItem.quantity + adjustment;
     print(
       '\n✅ Updated: ${currentItem.item} = $newQuantity ${currentItem.unit}',
     );
   } catch (e) {
     print('\n❌ Error: ${e.toString()}');
   }
-
   _pressEnterToContinue();
 }
 
@@ -701,12 +709,7 @@ Future<void> _handleTransfer() async {
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 /*CASHIER MENU SYSTEM*/
 Future<void> _cashierMainMenu() async {
-  const options = [
-    'Take Attendance',
-    'View Active Orders',
-    'Generate Bill',
-    'Exit System',
-  ];
+  const options = ['View Active Orders', 'Generate Bill', 'Exit System'];
 
   while (true) {
     _clearScreen();
@@ -715,16 +718,13 @@ Future<void> _cashierMainMenu() async {
 
     switch (choice) {
       case 1:
-        await _takeattendance();
-        break;
-      case 2:
         await _viewActiveOrders();
         break;
-      case 3:
+      case 2:
         await _generateBill();
         break;
-      case 4:
-        _confirmExit();
+      case 3:
+        await _checkout();
         break;
     }
   }
@@ -753,11 +753,10 @@ Future<void> _generateBill() async {
   _pressEnterToContinue();
 }
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------------*/
 /*WAITER MENU SYSTEM*/
 Future<void> _waiterMainMenu() async {
   const options = [
-    'Take Attendance',
     'View Table Status',
     'Book Table',
     'Take Order',
@@ -771,19 +770,16 @@ Future<void> _waiterMainMenu() async {
 
     switch (choice) {
       case 1:
-        await _takeattendance();
-        break;
-      case 2:
         await _viewTableStatus();
         break;
-      case 3:
+      case 2:
         await _bookTable();
         break;
-      case 4:
+      case 3:
         await _takeOrder();
         break;
-      case 5:
-        _confirmExit();
+      case 4:
+        await _checkout();
         break;
     }
   }
@@ -1012,6 +1008,7 @@ void _showError(String title, String message) {
 
 void _confirmExit() async {
   print('''
+
 ╔══════════════════════════════════╗
 ║       CONFIRM EXIT               ║
 ╠══════════════════════════════════╣
