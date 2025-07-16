@@ -104,7 +104,7 @@ Future<void> _adminMainMenu() async {
         break;
       case 5:
         await _viewBranchInventory();
-        ;
+        _pressEnterToContinue();
         break;
       case 6:
         await _handleTransfer();
@@ -539,8 +539,6 @@ Future<void> _viewBranchInventory() async {
     final branches = await TransferService.getAvailableBranches();
     if (branches.isEmpty) {
       print('No branches found');
-      _pressEnterToContinue();
-      return;
     }
 
     // Display clean branch names
@@ -562,6 +560,7 @@ Future<void> _viewBranchInventory() async {
 
     if (inventory.isEmpty) {
       print('No items in inventory');
+      return;
     } else {
       print('Item                Quantity  Unit');
       print('-' * 40);
@@ -573,7 +572,6 @@ Future<void> _viewBranchInventory() async {
         );
       }
     }
-    _pressEnterToContinue();
   } catch (e) {
     _showError('Inventory Error', e.toString());
   }

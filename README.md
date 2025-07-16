@@ -27,7 +27,7 @@ A complete CLI system for managing restaurant operations including:
 
 - **Language**: Dart
 - **Storage**: JSON files and a csv file
-- **Dependencies**: No extermal packages pure Dart
+- **Dependencies**: No external packages pure Dart
 - **IDE**: Visual Studio Code
 
 ## File Structure
@@ -40,7 +40,7 @@ restaurant_system/
 │ │ ├── menu_item.dart
 │ │ ├── table.dart
 │ │ ├── order.dart
-│ │ └── inventory_item.dart
+| | └── attendacne.dart
 │ │
 │ ├── services/ # Business logic
 │ │ ├── auth_service.dart
@@ -56,23 +56,23 @@ restaurant_system/
 │ │
 │ └── utils/ # Helpers
 │ ├── file_handler.dart
-│ └── validator.dart
 |
 ├── data/ # JSON database
 | ├── attendance/
-------├── attendance.csv
+|-----├── attendance.csv
 │ ├── users.json
 │ ├── menu.json
 │ ├── tables.json
 │ ├── inventory.json
+| └── staffs.json
 │ └── invoices/ # Generated reports
 | ├── sales_report.csv
 | ├── branches/
-------├── frankfurt.json
-------├── lisbon.json
-------├── noida.json
-------├── oslo.json
-------├── pokhara.json
+|-----├── frankfurt.json
+|-----├── lisbon.json
+|----├── noida.json
+|-----├── oslo.json
+|-----├── pokhara.json
 | ├── transfers/ #Generate Transfer Report
 
 ## User Roles
@@ -83,7 +83,12 @@ restaurant_system/
 | **Cashier** | Process bills, view orders |
 | **Waiter**  | Take orders, manage tables |
 
-## 🚀 Features
+## Features
+
+### Attendance
+- can be performed by managers, waiters and cashiers and other staffs
+- Checkin and checkout feature
+
 
 ### Menu Management
 
@@ -103,6 +108,13 @@ restaurant_system/
 - Calculate totals
 - Modify quantities
 
+### Inventory Management 
+
+- Add/remove items of different branches
+- View inventory items in different branches
+- Modify quantities of different branches
+- Handles inventory transfer
+
 ### Reporting
 
 - Daily sales (TXT + CSV)
@@ -117,4 +129,5 @@ restaurant_system/
    ```cmd
    dart run main.dart #make sure you are at the right directory
    ```
-   Copyright © 2025. All rights reserved.
+
+Copyright © 2025. All rights reserved.
