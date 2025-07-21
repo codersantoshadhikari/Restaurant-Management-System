@@ -34,13 +34,13 @@ class BranchService {
 
   static Future<int> getItemStock(String branch, String itemName) async {
     final branchData = await getBranchData(branch);
-    final inventory = branchData['inventory'] as List;
+    List<dynamic> inventory = branchData['inventory'];
 
     final item = inventory.firstWhere(
       (item) => item['item'].toString().toLowerCase() == itemName.toLowerCase(),
       orElse: () => null,
     );
 
-    return item?['quantity'] ?? 0;
+    return item['quantity'] ?? 0;
   }
 }

@@ -202,16 +202,22 @@ Future<void> _addMenuItem() async {
   _clearScreen();
   _printHeader('ADD MENU ITEM');
 
-  final id = _promptForInt('Enter item ID:');
-  final name = _promptForString('Enter item name:', required: true);
-  final price = _promptForDouble('Enter price:');
-  final category = _promptForString('Enter category:', required: true);
+  try {
+    final id = _promptForInt('Enter item ID:');
+    final name = _promptForString('Enter item name:', required: true);
+    final price = _promptForDouble('Enter price:');
+    final category = _promptForString('Enter category:', required: true);
 
-  await MenuService.addItem(
-    MenuItem(id: id, name: name, price: price, category: category),
-  );
+    await MenuService.addItem(
+      MenuItem(id: id, name: name, price: price, category: category),
+    );
 
-  print('\nItem added successfully!✅');
+    print('\nItem added successfully!✅');
+  } catch (e) {
+    print('\nError: ${e.toString()}');
+    print('Failed to add item.❌');
+  }
+
   _pressEnterToContinue();
 }
 
@@ -625,7 +631,8 @@ Future<void> _handleTransfer() async {
 
     // GET DETAILS OF ITEM
     final branchData = await TransferService.getBranchData(fromBranch);
-    final inventory = branchData['inventory'] as List;
+    List<dynamic> inventory =
+        branchData['inventory']; // Ensure inventory is a List no casting required as list
     _clearScreen();
     _printHeader('AVAILABLE ${fromBranch.toUpperCase()} INVENTORY');
 
