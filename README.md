@@ -86,9 +86,9 @@ restaurant_system/
 ## Features
 
 ### Attendance
+
 - can be performed by managers, waiters and cashiers and other staffs
 - Checkin and checkout feature
-
 
 ### Menu Management
 
@@ -108,7 +108,7 @@ restaurant_system/
 - Calculate totals
 - Modify quantities
 
-### Inventory Management 
+### Inventory Management
 
 - Add/remove items of different branches
 - View inventory items in different branches
@@ -123,7 +123,7 @@ restaurant_system/
 
 ## Setup
 
-1. **Install Dart SDK**:
+1. **Install Dart SDK** or **simply install flutter where Dart SDk comes along with it**
 
 2. **Run the system**:
    ```cmd
